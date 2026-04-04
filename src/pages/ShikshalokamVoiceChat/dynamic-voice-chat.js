@@ -1265,6 +1265,7 @@ const DynamicVoiceChat = ({ type = "" }) => {
         title: t("PPsCompletionMessage"),
         showCancelButton: false,
         confirmButtonText: t("PPsCompletionCTA"),
+        showConfirmButton: ![sessionFlowName.ShikshaSamvad, sessionFlowName.DelhiShikshaSamvad].includes(storageFlow),
         showCloseButton: false,
         allowEscapeKey: false,
         allowOutsideClick: false,
@@ -2176,6 +2177,7 @@ const DynamicVoiceChat = ({ type = "" }) => {
         <div className={isMobile ? "div30_a" : "div30"}>
           <MainHeader
             isMobileFirst={isMobile}
+            displayNewSessionButton={!([sessionFlowName.ShikshaSamvad, sessionFlowName.DelhiShikshaSamvad].includes(storageFlow))}
             showTheDots={false}
             content={
               <button
@@ -2286,6 +2288,8 @@ const DynamicVoiceChat = ({ type = "" }) => {
                   const prefixMap = {
                     [sessionFlowName.ListeningActivity]: "la_",
                     [sessionFlowName.ParentPerceptionSurvey]: "pppi_",
+                    [sessionFlowName.ShikshaSamvad]: "shiksha_samvad_",
+                    [sessionFlowName.DelhiShikshaSamvad]: "shiksha_samvad_"
                   }
 
                   const prefix = prefixMap[storageFlow] || ""
@@ -2565,7 +2569,7 @@ const DynamicVoiceChat = ({ type = "" }) => {
                 name="message-box"
                 value={textMessage}
                 autoFocus={false}
-                disabled={hasStartedRecording || isFetchingData}
+                disabled={hasStartedRecording || isFetchingData || strandStep >= stateMachineLength}
                 ref={textAreaRef}
                 onInput={e => {
                   e.target.style.height = "auto"
